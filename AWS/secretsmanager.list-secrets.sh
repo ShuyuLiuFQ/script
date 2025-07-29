@@ -1,0 +1,1 @@
+aws secretsmanager list-secrets --output json --profile prod > AWS/assets/list-secrets-prod.json

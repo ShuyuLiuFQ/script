@@ -1,0 +1,1 @@
+aws secretsmanager get-secret-value --secret-id "local/foxden-rating-quoting" --output json
