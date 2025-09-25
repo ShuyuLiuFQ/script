@@ -26,7 +26,7 @@ done
 
 # Set month and year
 year=2025
-month=08
+month=09
 # Get last day of the month
 last_day=$(cal $month $year | awk 'NF {DAYS = $NF}; END {print DAYS}')
 

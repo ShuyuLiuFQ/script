@@ -1,7 +1,7 @@
-aws logs filter-log-events --log-group-name /aws/lambda/foxden-payment-v2-2022-06-30-prod-stripe \
-  --start-time $(date -d '2025-09-15 00:00:00' +%s000) \
-  --end-time $(date -d '2025-09-16 00:00:00' +%s000) \
-  --filter-pattern "EMFILE" --output json --profile prod > AWS/assets/payment/prod-20250915-02.json
+aws logs filter-log-events --log-group-name /aws/lambda/foxden-payment-v2-2022-06-30-dev-graphql \
+  --start-time $(date -d '2025-09-25 01:30:00' +%s000) \
+  --end-time $(date -d '2025-09-26 00:00:00' +%s000) \
+  --filter-pattern "" --output json --profile prod > AWS/assets/payment/dev-20250925-01.json
 
 # Ensure [profile prod] already exists in ~/.aws/credentials
 # All dev, staging and prod env belongs to the prod account
