@@ -26,7 +26,7 @@ done
 
 # Set month and year
 year=2025
-month=09
+month=08
 # Get last day of the month
 last_day=$(cal $month $year | awk 'NF {DAYS = $NF}; END {print DAYS}')
 
@@ -35,23 +35,21 @@ for day in $(seq -w 1 $last_day); do
   start_time=$(date -d "$year-$month-$day 00:00:00" +%s000)
   end_time=$(date -d "$year-$month-$day 23:59:00" +%s000)
   date_str="$year-$month-$day"
-  date_folder="AWS/assets/EMFILE/${date_str}"
+  date_folder="AWS/assets/EBUSY/${date_str}"
   mkdir -p "$date_folder"
   for log_group_name in "${filtered_log_groups[@]}"; do
-    file_name="EMFILE-$(echo "$log_group_name" | tr '/' '-').json"
+    file_name="EBUSY-$(echo "$log_group_name" | tr '/' '-').json"
     echo "Processing log group: $log_group_name for date: $date_str"
     tmp_log=$(aws logs filter-log-events \
       --log-group-name "$log_group_name" \
       --start-time "$start_time" \
       --end-time "$end_time" \
-      --filter-pattern "EMFILE" \
+      --filter-pattern "EBUSY" \
       --output json \
       --profile prod)
-    # Exclude events containing '[EMFILE investigation]'
-    filtered_log=$(echo "$tmp_log" | jq 'if .events then .events |= map(select(.message | contains("[EMFILE investigation]") | not)) else . end')
-    event_count=$(echo "$filtered_log" | jq '.events | length')
+    event_count=$(echo "$tmp_log" | jq '.events | length')
     if [ $event_count -gt 0 ]; then
-      echo "$filtered_log" > "${date_folder}/${file_name}"
+      echo "$tmp_log" > "${date_folder}/${file_name}"
       # Print in red
       echo -e "\033[31mHas events for $log_group_name on $date_str, file generated.\033[0m"
     else
