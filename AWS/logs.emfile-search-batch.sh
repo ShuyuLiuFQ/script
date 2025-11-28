@@ -31,7 +31,7 @@ month=09
 last_day=$(cal $month $year | awk 'NF {DAYS = $NF}; END {print DAYS}')
 
 # Loop through each day of the month
-for day in $(seq -w 1 $last_day); do
+for day in $(seq -w 28 $last_day); do
   start_time=$(date -d "$year-$month-$day 00:00:00" +%s000)
   end_time=$(date -d "$year-$month-$day 23:59:00" +%s000)
   date_str="$year-$month-$day"
