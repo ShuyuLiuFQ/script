@@ -6,8 +6,8 @@ BLUE="\033[38;5;39m"
 RESET="\033[0m"
 
 # Define base paths
-project_path="$HOME/Documents/Foxquilts"
-log_path="$HOME/Documents/Logs"
+project_path="$HOME/Foxquilt"
+log_path="$HOME/Foxquilt/Logs"
 today=$(date +"%Y-%m-%d")
 
 # Define an array of repository paths
