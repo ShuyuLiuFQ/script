@@ -7,7 +7,7 @@ RESET="\033[0m"
 
 # Define base paths
 project_path="$HOME/Foxquilt"
-log_path="$HOME/Foxquilt/Logs"
+log_path="$HOME/Foxquilt/scripts/Foxden/Logs"
 today=$(date +"%Y-%m-%d")
 
 # Define an array of repository paths
@@ -28,7 +28,7 @@ REPOS=(
 mkdir -p "$log_path"
 
 # Loop through each repository
-for ENTRY in "${REPOS[@]}"; dDocumentso
+for ENTRY in "${REPOS[@]}"; do
   IFS=':' read -r REPO PORT <<< "$ENTRY"
   REPO_PATH="$project_path/$REPO"
   REPO_LOG_DIR="$log_path/$REPO"
