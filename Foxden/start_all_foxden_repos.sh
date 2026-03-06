@@ -53,8 +53,14 @@ for ENTRY in "${REPOS[@]}"; do
   echo "Installing dependencies for $REPO..."
   yarn &>> "$LOG_FILE"
 
-  echo "Starting server for $REPO on port $PORT..."
-  yarn start &>> "$LOG_FILE" &  # Run in the background and log output
+  echo "User Info: whoami=$(whoami) pwd=$(pwd)" &>> "$LOG_FILE"
+  if [[ "$REPO" == "foxden-policy-document-backend" ]]; then
+    echo "Starting server for $REPO on port $PORT with Chrome sandbox..."
+    CHROME_DEVEL_SANDBOX=/opt/google/chrome/chrome-sandbox yarn start &>> "$LOG_FILE" &
+  else
+    echo "Starting server for $REPO on port $PORT..."
+    yarn start &>> "$LOG_FILE" &
+  fi
   echo "================================="
   echo "                                 "
 done
