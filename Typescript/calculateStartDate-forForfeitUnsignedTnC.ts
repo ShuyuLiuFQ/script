@@ -60,7 +60,12 @@ export function calculateStartDate(
   const startOfDayInZone = sub(endOfDayInZone, { days: diffInDays });
 
   // Convert back to UTC, keeping it at midnight in the local timezone
-  return zonedTimeToUtc(startOfDayInZone, timeZone);
+  const startDateUtc = zonedTimeToUtc(startOfDayInZone, timeZone);
+
+  // Step back one more hour so the result lands on the previous calendar day
+  // in the local timezone. That makes the gap `diffInDays + 1`, which is
+  // strictly greater than maxDaysAllowedNoESignature, so isInGracePeriod is false.
+  return sub(startDateUtc, { hours: 1 });
 }
 
 // Example usage (you can modify or remove this)
@@ -75,11 +80,17 @@ if (require.main === module) {
   console.log('Start Date:', startDate.toISOString());
   console.log(`Input Difference: ${diffInDays} days`);
 
-  // Verify the inverse relationship
+  // The extra hour pushes the start date one calendar day earlier,
+  // so compareDate should report diffInDays + 1.
   const calculatedDiff = compareDate(endDate, startDate, timeZone);
   console.log(`Calculated Difference (from compareDate): ${calculatedDiff} days`);
-  console.log(`Match: ${calculatedDiff === diffInDays ? '✓' : '✗'}`);
+  console.log(
+    `Match (expected ${diffInDays + 1}): ${calculatedDiff === diffInDays + 1 ? '✓' : '✗'}`,
+  );
+  console.log(
+    `Out of grace period (diffInDays > max): ${calculatedDiff > diffInDays ? 'true' : 'false'}`,
+  );
 
-  // Show the start date is at midnight in the local timezone
+  // Show the start date is one hour before midnight in the local timezone
   console.log(`Start Date in UTC:`, startDate.toISOString());
 }
